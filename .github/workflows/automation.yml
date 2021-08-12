@@ -12,6 +12,10 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.go-version }}
+    - name: Install xvfb
+      run: |
+        sudo apt-get install xvfb
+        xvfb-run --auto-servernum npm run protractor
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Test
