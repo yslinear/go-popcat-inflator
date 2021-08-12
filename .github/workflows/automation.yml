@@ -17,4 +17,5 @@ jobs:
     - name: Test
       run: |
         go mod init yslinear/go-popcat-inflator
+        go mod tidy
         go run .
