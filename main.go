@@ -87,7 +87,13 @@ func openNewPage() {
 	chromedp.Run(taskCtx,
 		network.Enable(),
 		chromedp.Navigate(`https://popcat.click/`),
-		chromedp.Evaluate(`setInterval(function () {
+		chromedp.Evaluate(`
+		var event = new KeyboardEvent('keydown', {
+			key: 'g',
+			ctrlKey: true
+		});
+		setInterval(function () {
+			document.dispatchEvent(event);
 			document.getElementById('app').__vue__.accumulator = 800
 		}, 1000);`,
 			&res),
@@ -104,7 +110,7 @@ func listenForNetworkEvent(ctx context.Context) {
 			resp := ev.Response
 			if len(resp.Headers) != 0 {
 				if strings.Contains(resp.URL, "pop_count") {
-					log.Printf("received headers: %s", resp.URL)
+					log.Printf("received status code: %d", resp.Status)
 				}
 			}
 		}
